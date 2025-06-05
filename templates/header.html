@@ -1,0 +1,99 @@
+{% load static %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold text-dark" href="{% url 'index' %}">
+            <i class="fas fa-briefcase"></i> BizHunt
+        </a>
+
+        <!-- Toggle Button for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Centered Search Bar -->
+            <div class="position-relative mx-auto" style="width: 50%;">
+                <form class="d-flex" action="{% url 'smart_search' %}" method="get">
+                    <input id="searchInput" class="form-control me-2" type="search" name="q" placeholder="Search businesses..." aria-label="Search" required autocomplete="off">
+                    <button class="btn btn-dark" type="submit">Search</button>
+                </form>
+
+                <!-- Suggestions Box -->
+                <div id="suggestionsBox" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></div>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about_us' %}">About</a>
+                </li>
+            </ul>
+
+            <!-- User Dropdown -->
+            <div class="dropdown ms-3">
+                <a href="#" class="btn btn-outline-dark dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'business_list' %}"><i class="fas fa-briefcase"></i> Businesses</a></li>
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{% url 'business_register' %}"><i class="fas fa-user-tie"></i> Register Business</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Signup</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 🍪 Live Search Suggestions Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsBox = document.getElementById('suggestionsBox');
+
+    searchInput.addEventListener('keyup', function() {
+        let query = searchInput.value.trim();
+
+        if (query.length > 1) {
+            fetch(`/business/live_search/?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                suggestionsBox.innerHTML = '';
+                if (data.suggestions.length > 0) {
+                    suggestionsBox.style.display = 'block';
+                    data.suggestions.forEach(item => {
+                        const suggestionItem = document.createElement('a');
+                        suggestionItem.className = 'list-group-item list-group-item-action';
+                        suggestionItem.href = `/smart_search/?q=${encodeURIComponent(item)}`;
+                        suggestionItem.textContent = item;
+                        suggestionsBox.appendChild(suggestionItem);
+                    });
+                } else {
+                    suggestionsBox.style.display = 'none';
+                }
+            });
+        } else {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+
+    // Close suggestions when clicked outside
+    document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !suggestionsBox.contains(event.target)) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+});
+</script>

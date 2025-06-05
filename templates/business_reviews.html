@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reviews - {{ business.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="fw-bold text-center text-primary">Reviews for {{ business.business_name }}</h2>
+
+    <div class="mt-4 row justify-content-center">
+        {% for review in reviews %}
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg p-4 mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <img src="{% if review.user.profile_image %}{{ review.user.profile_image.url }}{% else %}{% static 'img/default-user.png' %}{% endif %}" 
+                             class="rounded-circle border border-light shadow-sm" width="120" height="120" alt="User Profile">
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0">{{ review.user.username }}</h5>
+                        <small class="text-muted">{{ review.created_at|date:"F j, Y" }}</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <span class="text-warning">
+                        {% for _ in "⭐"|ljust:review.rating %}★{% endfor %}
+                        {% for _ in "⭐"|ljust:5|slice:":-review.rating" %}☆{% endfor %}
+                    </span>
+                    <span class="ms-2 text-muted">({{ review.rating }}/5)</span>
+                </div>
+                <p class="mt-2 text-secondary">{{ review.comment }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">No reviews yet. Be the first to review!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

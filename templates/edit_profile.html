@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <!-- Card Header -->
+                <div class="card-header d-flex align-items-center justify-content-between bg-gradient">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit me-2"></i> Edit Profile
+                    </h4>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-arrow-left"></i> Back to Profile
+                    </a>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row g-4">
+                            <!-- Profile Image Upload -->
+                            <div class="col-12 text-center">
+                                <label for="profileImage" class="form-label">
+                                    <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'img/default-user.png' %}{% endif %}"
+                                         class="rounded-circle border shadow-sm mb-2" width="120" height="120" alt="User Profile">
+                                </label>
+                                <input type="file" class="form-control d-none" id="profileImage" name="profile_image" readonly>
+                                <p class="small text-muted">Click on the image to upload a new one.</p>
+                            </div>
+
+                            <!-- User Details -->
+                            <div class="col-md-6">
+                                <h5 class="text-secondary"><i class="fas fa-user"></i> Personal Info</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" value="{{ user.email }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" name="contact_number" value="{{ user.contact_number|default_if_none:'' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-control" name="address" value="{{ user.address|default_if_none:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- Business Details (Only for Business Owners) -->
+                            {% if user.user_type == 'business' and business %}
+                            <div class="col-md-6">
+                                <h5 class="text-secondary"><i class="fas fa-briefcase"></i> Business Info</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Business Name</label>
+                                    <input type="text" class="form-control" name="business_name" value="{{ business.business_name }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <input type="text" class="form-control" name="category" value="{{ business.category }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contact Info</label>
+                                    <input type="text" class="form-control" name="business_contact" value="{{ business.contact_info }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Website</label>
+                                    <input type="url" class="form-control" name="business_website" value="{{ business.website }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="opening_hours">Opening Hours:</label>
+                                    <input type="text" id="opening_hours" class="form-control" value="{{ business.opening_hours }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="closing_hours">Closing Hours:</label>
+                                    <input type="text" id="closing_hours" class="form-control" value="{{ business.closing_hours }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Business Image</label>
+                                    <input type="file" class="form-control" name="business_image">
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

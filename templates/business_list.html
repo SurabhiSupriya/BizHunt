@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Registered Businesses | BizHunt{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="fw-bold text-center mb-4">Find Local Businesses</h2>
+
+    <!-- Search Box -->
+    <div class="d-flex justify-content-center">
+        <form method="GET" action="{% url 'business_list' %}" class="d-flex w-75 bg-light p-3 rounded shadow-sm">
+            <!-- Category Dropdown -->
+            <select name="category" class="form-select me-2 shadow-sm">
+                <option value="">Select Category</option>
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if request.GET.category == category %}selected{% endif %}>
+                        {{ category }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <!-- Address/Pincode Input -->
+            <input type="text" name="query" class="form-control me-2 shadow-sm" 
+                placeholder="Enter Pincode or Address" 
+                value="{{ request.GET.query }}">
+
+            <!-- Search Button -->
+            <button type="submit" class="btn btn-dark px-4">Search</button>
+        </form>
+    </div>
+
+    {% if request.GET.category or request.GET.query %}
+        <h5 class="text-center mt-4 text-muted">
+            Showing results for 
+            {% if request.GET.category %}
+                <span class="fw-bold">Category: {{ request.GET.category }}</span>
+            {% endif %}
+            {% if request.GET.query %}
+                <span class="fw-bold"> | Location: {{ request.GET.query }}</span>
+            {% endif %}
+        </h5>
+    {% endif %}
+
+    <div class="row mt-4">
+        <!-- Business List -->
+        <div class="col-lg-8">
+            {% for business in businesses %}
+            <div class="business-card d-flex align-items-center p-4 mb-3 bg-white shadow rounded">
+                <!-- Business Image -->
+                <div class="business-image">
+                    <img src="{% if business.business_images %}{{ business.business_images.url }}{% else %}{% static 'img/default-business.png' %}{% endif %}" 
+                         class="img-fluid rounded shadow-sm" alt="{{ business.business_name }}">
+                </div>                
+
+                <!-- Business Info -->
+                <div class="business-info ms-3">
+                    <h5 class="fw-bold mb-1 text-dark">
+                        <i class="fas fa-thumbs-up text-success"></i> {{ business.business_name }}
+                    </h5>
+                    <!-- review section -->
+                    <div class="d-flex align-items-center mb-2 text-muted">
+                        {% if business.avg_rating %}
+                            <span class="badge bg-warning text-dark">
+                                {{ business.avg_rating|floatformat:1 }} ⭐
+                            </span>
+                            <span class="ms-2">{{ business.total_reviews }} Ratings</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No Ratings Yet</span>
+                        {% endif %}
+                        
+                        <span class="badge bg-success ms-2">✔ Verified</span>
+                        <span class="badge bg-info ms-2">⚡ Responsive</span>
+                    </div>                    
+
+                    <p class="text-muted small">
+                        <i class="fas fa-map-marker-alt"></i> {{ business.address }}, {{ business.pincode }}
+                    </p>
+
+                    <!-- Business Categories -->
+                    <span class="badge bg-secondary">{{ business.category }}</span>
+
+                    <!-- View More & Call Button -->
+                    <div class="mt-3 d-flex align-items-center">
+                        <a href="" class="btn btn-outline-primary btn-sm me-2">🔍 View More</a>
+
+                        <!-- Call Button (Reveals Contact) -->
+                        <button class="btn btn-sm btn-outline-dark me-2" onclick="showContact('{{ business.id }}')">
+                            📞 Show Contact
+                        </button>
+                        <span id="contact-{{ business.id }}" class="text-muted fw-bold d-none">
+                            {{ business.contact_info }}
+                        </span>
+
+                        <!-- Review Button -->
+                        <a href="{% url 'add_review' business.id %}" class="btn btn-sm btn-warning me-2">⭐ Write a Review</a>
+                        <a href="{% url 'business_reviews' business.id %}" class="btn btn-sm btn-outline-primary">📄 View Reviews</a> 
+                    </div>
+
+                    <!-- Short Business Description -->
+                    <div class="mt-2">
+                        <small class="text-muted"><i class="fas fa-cog"></i> {{ business.short_description }}</small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center">
+                <p class="text-muted mt-4">Oops! No businesses found. Try changing your search criteria.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Recommendations Sidebar -->
+        <div class="col-lg-4">
+            <div class="p-3 bg-light shadow rounded">
+                <h5 class="fw-bold text-dark mb-3">Recommended for You</h5>
+                {% for recommended in recommended_businesses %}
+                <div class="recommended-card p-2 mb-3 bg-white shadow-sm rounded d-flex align-items-center">
+                    <!-- Business Image -->
+                    <div class="recommended-image me-3">
+                        <img src="{% if recommended.business_images %}{{ recommended.business_images.url }}{% else %}{% static 'img/default-business.png' %}{% endif %}" 
+                             class="img-fluid rounded" alt="{{ recommended.business_name }}" width="50">
+                    </div>
+
+                    <!-- Business Info -->
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">{{ recommended.business_name }}</h6>
+                        <p class="text-muted small mb-1">{{ recommended.category }}</p>
+                        <a href="" class="btn btn-sm btn-outline-primary">🔍 View</a>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted small">No recommendations available.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Reveal Script -->
+<script>
+    function showContact(businessId) {
+        let contactSpan = document.getElementById('contact-' + businessId);
+        contactSpan.classList.toggle('d-none');
+    }
+</script>
+{% endblock %}

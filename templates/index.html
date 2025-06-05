@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizHunt | Explore Your City</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="{% static 'css/bootstrap-icons/font/bootstrap-icons.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Explore This City</h1>
+            <p>BizHunt helps you find out what's happening in your city. Let's explore!</p>
+            <a href="" class="btn btn-light mt-3">Join Now</a>
+        </div>
+    </div>
+
+    <!-- Featured Section -->
+    <section class="featured container">
+        <h4 class="text-center text-muted">How it Works</h4>
+        <p class="text-center text-muted mb-5">Bringing business and community members together.</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <img src="{% static 'img/search-online.svg' %}" alt="Find Businesses" class="feature-icon">
+                    <h4>Find Businesses</h4>
+                    <p class="text-muted">Discover & connect with great local businesses in your neighborhood like dentists, hair stylists, and more.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <img src="{% static 'img/find-listing.svg' %}" alt="Review Listings" class="feature-icon">
+                    <h4>Review Listings</h4>
+                    <p class="text-muted">Get valuable insights about listings and share your experiences by leaving reviews for businesses.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <img src="{% static 'img/make-online-booking.svg' %}" alt="Make a Reservation" class="feature-icon">
+                    <h4>Make a Reservation</h4>
+                    <p class="text-muted">Easily set up an appointment directly from the business listing page using our integrated booking options.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section class="trending container">
+        <h4 class="text-center text-muted">The Most Popular Things to Do.</h4>
+        <p class="text-center text-muted mb-5">Discover & connect with great local businesses.</p>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="trending-card" style="background-image: url('{% static 'img/place1.jpg' %}');">
+                    <div class="overlay">
+                        <h5>Restaurants</h5>
+                    </div>
+                </div>
+                <p class="text-center mt-2">Experience the best dining places in town with top-rated cuisines.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="trending-card" style="background-image: url('{% static 'img/place2.jpg' %}');">
+                    <div class="overlay">
+                        <h5>Nightlife</h5>
+                    </div>
+                </div>
+                <p class="text-center mt-2">Enjoy vibrant nightlife with the best clubs, bars, and live music venues.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="trending-card" style="background-image: url('{% static 'img/place3.jpg' %}');">
+                    <div class="overlay">
+                        <h5>Lodging</h5>
+                    </div>
+                </div>
+                <p class="text-center mt-2">Find comfortable stays from budget hotels to luxury resorts.</p>
+            </div>
+        </div>
+    </section>
+    {% include 'footer.html' %}
+    <!-- JS Files -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

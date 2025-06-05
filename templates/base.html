@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BizHunt{% endblock %}</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header -->
+    {% include 'header.html' %}
+
+    <!-- Flash Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Page Content -->
+    <main class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- 🍪 Cookie Consent Banner (at very bottom) -->
+    <div id="cookieConsentBanner" style="display:none; position: fixed; bottom: 0; width: 100%; background: #343a40; color: white; text-align: center; padding: 15px; z-index: 1000;">
+        <p style="margin: 0;">We use cookies to improve your experience. By using our site, you accept cookies. 
+        <a href="{% url 'privacy_policy' %}" class="text-info text-decoration-underline" target="_blank">Learn more</a></p>
+        <button onclick="acceptCookies()" class="btn btn-sm btn-light ms-3">Got it</button>
+    </div>
+
+    <!-- JS Files -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Cookie Consent Script (after jQuery/Bootstrap load) -->
+    <script>
+    function acceptCookies() {
+        document.getElementById('cookieConsentBanner').style.display = 'none';
+        localStorage.setItem('cookieConsent', 'accepted');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM fully loaded and parsed. Checking cookieConsent...');
+        if (!localStorage.getItem('cookieConsent')) {
+            console.log('No consent found. Showing banner.');
+            document.getElementById('cookieConsentBanner').style.display = 'block';
+        } else {
+            console.log('Consent already given.');
+        }
+    });
+    </script>
+
+</body>
+</html>

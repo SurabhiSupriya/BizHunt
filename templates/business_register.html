@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Register Businesses | BizHunt{% endblock %}
+
+{% block content %}
+<style>
+    .register-section {
+        padding: 60px 0;
+    }
+    h2 {
+        color: #212529;
+        font-weight: bold;
+    }
+    .form-control, .form-select {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        transition: 0.3s;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+    }
+    #map {
+        height: 350px;
+        border-radius: 8px;
+        margin-top: 10px;
+        border: 2px solid #ddd;
+    }
+    label {
+        font-weight: 600;
+    }
+    input[type="file"] {
+        padding: 6px;
+        background-color: #f8f9fa;
+    }
+    textarea {
+        resize: none;
+    }
+</style>
+
+<section class="register-section">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-4">Register Your Business</h2>
+        <p class="text-muted text-center mb-5">Fill out the form below to get started with your business registration.</p>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+
+                <div class="col-6 mb-3">
+                    <label for="business_owner" class="form-label text-muted">Business Owner</label>
+                    <select class="form-select" id="business_owner" name="business_owner" required>
+                        <option value="" selected disabled>Select Owner</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" data-business="{{ user.business_name }}">
+                                {{ user.first_name }} - {{ user.business_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>                    
+                
+                <div class="col-6 mb-3">
+                    <label for="business_name" class="form-label text-muted">Business Name</label>
+                    <input type="text" class="form-control" id="business_name" name="business_name" required readonly>
+                </div>
+
+                <div class="col-6 mb-3">
+                    <label for="category" class="form-label text-muted">Business Category</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="" selected disabled>Select Category</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat }}">{{ cat|capfirst }}</option>
+                        {% empty %}
+                            <option value="">No categories available</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-6 mb-3">
+                    <label for="address" class="form-label text-muted">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="pincode" class="form-label text-muted">Pincode</label>
+                    <input type="number" class="form-control" id="pincode" name="pincode" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="contact_info" class="form-label text-muted">Contact Info</label>
+                    <input type="number" class="form-control" id="contact_info" name="contact_info" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="description" class="form-label text-muted">Business Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="business_images" class="form-label text-muted">Upload Business Images</label>
+                    <input type="file" class="form-control" id="business_images" name="business_images" multiple required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="opening_hours" class="form-label text-muted">Opening Hours</label>
+                    <input type="time" class="form-control" id="opening_hours" name="opening_hours" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="closing_hours" class="form-label text-muted">Closing Hours</label>
+                    <input type="time" class="form-control" id="closing_hours" name="closing_hours" required>
+                </div>
+                
+                <div class="col-6 mb-3">
+                    <label for="website" class="form-label text-muted">Website URL</label>
+                    <input type="url" class="form-control" id="website" name="website" placeholder="https://yourbusiness.com">
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="social_media" class="form-label text-muted">Social Media Links</label>
+                    <input type="url" class="form-control" id="social_media" name="social_media" placeholder="https://facebook.com/yourbusiness">
+                </div>
+                
+                <div class="col-6 mb-3">
+                    <label class="form-label text-muted">Business Type</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="business_type" id="online" value="online" required>
+                            <label class="form-check-label" for="online">Online</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="business_type" id="physical" value="physical">
+                            <label class="form-check-label" for="physical">Physical</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="business_type" id="both" value="both">
+                            <label class="form-check-label" for="both">Both</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 mb-5">
+                    <label for="business_reg_no" class="form-label text-muted">Additional Services</label>
+                    <input type="text" name="additional_services" class="form-control" placeholder="e.g., Home Delivery, Free Wi-Fi">
+                </div>
+                
+                <div class="col-6 mb-5">
+                    <label for="business_reg_no" class="form-label text-muted">Business Registration Number</label>
+                    <input type="number" class="form-control" id="business_reg_no" name="business_reg_no" required>
+                </div>
+                
+            </div>
+            <button type="submit" class="btn btn-dark">Register Business</button>
+        </form>
+    </div>
+</section>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    document.getElementById("business_owner").addEventListener("change", function() {
+        let selectedOption = this.options[this.selectedIndex];
+        let businessName = selectedOption.getAttribute("data-business");
+        document.getElementById("business_name").value = businessName || "";
+    });
+</script>
+
+{% endblock %}

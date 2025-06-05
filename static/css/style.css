@@ -1,0 +1,317 @@
+/* General Styles */
+body {
+    font-family: 'Karla', sans-serif !important;
+    background-color: #f8f9fa !important;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+/* Navbar */
+.navbar {
+    padding: 12px 0;
+}
+/* Brand */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+/* Navigation Links */
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    color: #333;
+    margin-right: 15px;
+    transition: 0.3s;
+}
+.navbar-nav .nav-link:hover {
+    color: #555;
+}
+/* Search Bar */
+.navbar form {
+    width: 300px;
+}
+.navbar form input {
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+.navbar form button {
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+/* Dropdown */
+.dropdown-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+}
+.dropdown-toggle:focus {
+    box-shadow: none;
+}
+
+/* Login Page Layout */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* Login Box */
+.login-box {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* Input Fields */
+.input-group-text {
+    background-color: #f1f1f1;
+    border: none;
+}
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+.form-control:focus {
+    border-color: #888;
+    box-shadow: none;
+}
+/* Toggle Password Visibility */
+.toggle-password {
+    cursor: pointer;
+}
+
+/* signup page  */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.signup-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* index home page */
+/* Hero Section */
+  .hero {
+    background: url("../img/bg-1.jpg") no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+/* Featured Section */
+.featured {
+    padding: 50px 0;
+    text-align: center;
+}
+.feature-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+}
+.feature-icon {
+    width: 40%;
+    height: auto;
+    margin-bottom: 20px;
+}
+.feature-card h4 {
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+/* Trending Section */
+.trending {
+    padding: 50px 0;
+    background: #f8f9fa;
+}
+.trending-card {
+    position: relative;
+    height: 250px; /* Adjust as needed */
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+.trending-card .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+.trending-card h5 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 2;
+}
+/* Description Text Below Cards */
+.trending p {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* about us page */
+ /* Breadcrumb Section */
+ .breadcrumb-section {
+    background: url("../img/breadcrumb.jpg") center/cover no-repeat;
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+.breadcrumb-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+.breadcrumb-content {
+    position: relative;
+    z-index: 2;
+}
+.breadcrumb a {
+    color: #f8f9fa;
+    text-decoration: none;
+}
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* About Us Section */
+.about-section {
+    padding: 60px 0;
+}
+.about-text {
+    font-size: 1.1rem;
+    color: #555;
+}
+/* Icon Styling */
+.icon-box {
+    font-size: 2rem;
+    color: #007bff;
+    display: block;
+    margin-bottom: 15px;
+}
+/* Why Choose Us */
+.why-choose-section {
+    background: #f8f9fa;
+    padding: 60px 0;
+}
+.why-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+.why-card i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+.why-card h5 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+/* for business list  */
+.business-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+.business-card:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.business-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: 200px;
+}
+
+.rating-badge {
+    background: #28a745;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.verified-badge {
+    background: #007bff;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.responsive-badge {
+    background: #ffc107;
+    color: #000;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.category-badge {
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.btn-success {
+    font-weight: bold;
+}
+
+.btn-light {
+    font-weight: bold;
+}
